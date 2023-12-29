@@ -47,12 +47,12 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls, filepath: str):
+    def instantiate_from_csv(cls, filepath: str) -> None:
         cls.all = []
         with open(filepath, "r", encoding="UTF-8") as f:
             dict_item = csv.DictReader(f)
             for item in dict_item:
-                Item(item['name'], float(item['price']), int(item['quantity']))
+                Item(item["name"], float(item["price"]), int(item["quantity"]))
 
     @staticmethod
     def string_to_number(str_number: str) -> int:
