@@ -7,7 +7,7 @@ class Item:
     """
 
     pay_rate = 1.0
-    all = []
+    all: list = []
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -22,11 +22,20 @@ class Item:
         self.quantity = quantity
         self.all.append(self)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
+
+    def __add__(self, other) -> int:
+        """
+        Сложение количества товаров экземпляров класса Item и Phone (наследуется от Item).
+        """
+        if issubclass(other.__class__, Item):
+            return self.quantity + other.quantity
+        else:
+            raise ValueError(f"Объект {other} не является экземпляром класса 'Phone' или 'Item'")
 
     @property
     def name(self) -> str:
