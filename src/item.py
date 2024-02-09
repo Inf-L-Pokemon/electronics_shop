@@ -66,11 +66,16 @@ class Item:
         """
         Инициализирует экземпляры класса `Item` данными из файла ".csv".
         """
-        cls.all = []
-        with open(filepath, "r", encoding="UTF-8") as f:
-            dict_item = csv.DictReader(f)
-            for item in dict_item:
-                Item(item["name"], float(item["price"]), int(item["quantity"]))
+        try:
+            cls.all = []
+            with open(filepath, "r", encoding="UTF-8") as f:
+                dict_item = csv.DictReader(f)
+                for item in dict_item:
+                    Item(item["name"], float(item["price"]), int(item["quantity"]))
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Отсутствует файл item.csv")
+        except Exception:
+            raise InstantiateCSVError("Файл item.csv поврежден")
 
     @staticmethod
     def string_to_number(str_number: str) -> int:
@@ -78,3 +83,12 @@ class Item:
         Возвращает число из числа-строки
         """
         return int(float(str_number))
+
+
+class InstantiateCSVError(Exception):
+    """
+    Класс для исключения при поврежденном файле .csv
+    """
+
+    def __init__(self, message: str) -> None:
+        self.message = message

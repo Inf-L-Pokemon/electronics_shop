@@ -1,6 +1,6 @@
 import pytest
 
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 
@@ -58,3 +58,13 @@ def test_add_method(item, phone):
     assert phone + phone == 10
     with pytest.raises(ValueError):
         phone + 6
+
+
+def test_fnfe_exception():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv("src/item.csv")
+
+
+def test_icsve_exception():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv("tests/broken_test_file.csv")
